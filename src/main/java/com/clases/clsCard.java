@@ -15,13 +15,13 @@ public class clsCard {
     private List<clsMovements> lstMovements;
 
 
-    public clsCard(String cardNumber, String cvv, String expirationDate, String password, String currency) {
+    public clsCard(String cardNumber, String cvv, String expirationDate, String password, String currency, float balance) {
         this.cardNumber = cardNumber;
         this.cvv = cvv;
         this.expirationDate = expirationDate;
         this.password = password;
         this.currency = currency;
-        this.balance = 0;
+        this.balance = balance;
         lstMovements = new ArrayList<clsMovements>();
     }
     

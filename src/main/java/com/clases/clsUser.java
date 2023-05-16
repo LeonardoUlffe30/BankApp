@@ -10,11 +10,11 @@ public class clsUser {
     private clsWithdraw withdraw;
 
     public clsUser(String name, String lastName, String dni, String cardNumber, String cvv, 
-            String expirationDate, String password, String currency) {
+            String expirationDate, String password, String currency, float balance) {
         this.name = name;
         this.lastName = lastName;
         this.dni = dni;
-        card = new clsCard(cardNumber, cvv, expirationDate, password, currency);
+        card = new clsCard(cardNumber, cvv, expirationDate, password, currency, balance);
     }
 
     public void deposit(float amount) {

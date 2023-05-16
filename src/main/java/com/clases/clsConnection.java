@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class clsConnection {
@@ -15,7 +17,6 @@ public class clsConnection {
     private String user = "root";
     private String password = "";
     private String driver = "com.mysql.cj.jdbc.Driver";
-    private PreparedStatement GeneralPS;
     private PreparedStatement PS; 
     private ResultSet RS;
     
@@ -38,42 +39,55 @@ public class clsConnection {
     }
     
     public void retrieveDataFromDB(List<clsUser> lstUsers) {
+        Connection receiver = null;
         String statementSQL = "SELECT dni, name, lastname, users.cardNumber, cards.cvv, cards.expirationDate, "
-                + "cards.password, cards.currency FROM users JOIN cards ON users.cardNumber = cards.cardNumber;"; 
-        Connection receiver;
+                + "cards.password, cards.currency, cards.balance FROM users JOIN cards ON users.cardNumber = cards.cardNumber;"; 
         
-        receiver = setConnection();
         try {
+            receiver = setConnection();
             PS = receiver.prepareStatement(statementSQL);
             RS = PS.executeQuery();
-            Object[] fila = new Object[5];
+            Object[] fila = new Object[10];
             while(RS.next()) {
                 lstUsers.add(new clsUser(RS.getString(2), RS.getString(3), RS.getString(1),
                 RS.getString(4),RS.getString(5),RS.getString(6),RS.getString(7), 
-                        RS.getString(8)));
+                        RS.getString(8), RS.getFloat(9)));
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Cannot retrieve data from the database");
         }
     }
     
-    public void pushDataToDB() {
-        String statementSQL = "INSERT INTO dni, name, lastname, users.cardNumber, cards.cvv, cards.expirationDate, "
-                + "cards.password, cards.currency FROM users JOIN cards ON users.cardNumber = cards.cardNumber;"; 
-        Connection receiver;
-        
-        receiver = setConnection();
-//        try {
-////            PS = receiver.prepareStatement(statementSQL);
-////            RS = PS.executeQuery();
-////            Object[] fila = new Object[5];
-////            while(RS.next()) {
-////                lstUsers.add(new clsUser(RS.getString(2), RS.getString(3), RS.getString(1),
-////                RS.getString(4),RS.getString(5),RS.getString(6),RS.getString(7), 
-////                        RS.getString(8)));
-////            }
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Cannot retrieve data from the database");
-//        }
+    public void addDataToDB(clsUser newUser) {
+        int result1 = 0;
+        int result2 = 0;
+        Connection receiver = null;
+        try {
+            receiver = setConnection();
+            
+            String statementSQL1 =  "INSERT INTO cards VALUES (?,?,?,?,?,?)";
+            String statementSQL2 = "INSERT INTO users VALUES (?,?,?,?)";
+            
+            PS = receiver.prepareStatement(statementSQL1);
+            PS.setString(1, newUser.getCard().getCardNumber());
+            PS.setString(2, newUser.getCard().getCvv());
+            PS.setString(3, newUser.getCard().getExpirationDate());
+            PS.setString(4, newUser.getCard().getPassword());
+            PS.setString(5, newUser.getCard().getCurrency());
+            PS.setFloat(5, newUser.getCard().getBalance());
+            result1 = PS.executeUpdate();
+            PS = receiver.prepareStatement(statementSQL2);
+            PS.setString(1, newUser.getDni());
+            PS.setString(2, newUser.getName());
+            PS.setString(3, newUser.getLastName());
+            PS.setString(4, newUser.getCard().getCardNumber());
+            result2 = PS.executeUpdate();
+            if(result1 > 0 && result2 > 0)
+                JOptionPane.showMessageDialog(null, "Succesful registration!");
+            receiver.close();
+            PS = receiver.prepareStatement(statementSQL2);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }

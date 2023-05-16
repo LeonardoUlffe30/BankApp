@@ -4,6 +4,7 @@
  */
 package com.forms;
 
+import com.clases.clsConnection;
 import com.clases.clsUser;
 import java.awt.Color;
 import javax.swing.JOptionPane;
@@ -234,15 +235,17 @@ public class frmRegistration extends javax.swing.JFrame {
             expirationDate = txtDate.getText();
             cvv = txtCVV.getText();
             password = String.valueOf(txtPassword.getPassword());
-            if(cmbCurrency.getSelectedIndex()==0)
-                JOptionPane.showMessageDialog(rootPane, "Please, select a currency", "Elite Bank", HEIGHT);
             if(cmbCurrency.getSelectedIndex()==1)
                 typeCurrency = "Soles";
             if(cmbCurrency.getSelectedIndex()==2)
                 typeCurrency = "Dollars";
-            clsUser newUser = new clsUser(txtName.getText(),txtLastName.getText(), txtDni.getText(),
-        txtCardNumber.getText(), txtCVV.getText(), txtDate.getText(), txtPassword.getPassword().toString(), typeCurrency);
+            
+            clsUser newUser = new clsUser(txtName.getText(),txtLastName.getText(), txtDni.getText(),                  
+        txtCardNumber.getText(), txtCVV.getText(), txtDate.getText(), txtPassword.getPassword().toString(), typeCurrency,0);
+            clsConnection connection = new clsConnection();
+            connection.addDataToDB(newUser);
         }
+        
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

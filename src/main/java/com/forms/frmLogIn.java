@@ -135,7 +135,7 @@ public class frmLogIn extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    private clsConnection connection;
+    private clsConnection connection = new clsConnection();
     private List<clsUser> lstUsers = new ArrayList<clsUser>();
     private clsUser user;
     
@@ -160,6 +160,7 @@ public class frmLogIn extends javax.swing.JFrame {
     private void btnSignInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignInActionPerformed
         if(getAuthentication()) {
             frmHome home = new frmHome();
+            home.setUserAccount(user);
             this.setVisible(false);
             home.setVisible(true);
         } else
