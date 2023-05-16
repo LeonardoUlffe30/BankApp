@@ -1,16 +1,22 @@
 
 package com.clases;
 
-import java.util.Locale;
-
 //Deposit Class
-public class clsDeposit {
-    private double dineroDeposito;
-    private String moneda;
 
-    public clsDeposit() { //Default Constructor
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class clsDeposit {
+    private float amount;
+    private String currency;
+    private String date;
+
+    public clsDeposit(float amount) {
+        this.amount = amount;
+        Date aux = new Date();
+        SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        date = formatDate.format(aux);
     }
-    
     
 //    public void Depositar(double dineroDeposito, String moneda, clsCard cuenta) {
 //        moneda.toUpperCase();
@@ -23,4 +29,17 @@ public class clsDeposit {
 //            System.out.println("Ahora tu saldo es: " + cuenta.getDineroCuentaDolares());
 //        } 
 //    }
+
+    public float getAmount() {
+        return amount;
+    }
+
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
 }

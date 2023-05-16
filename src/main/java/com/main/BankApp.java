@@ -1,25 +1,22 @@
 
 package com.main;
 
-import com.clases.clsCard;
-import com.clases.clsDeposit;
-import com.clases.clsWithdraw;
-import com.forms.frmHome;
-import java.util.Scanner;
+
+import com.clases.clsConnection;
+import com.forms.frmLogIn;
+
 
 //Application that allows to deposit and withdraw
 public class BankApp {
 
     public static void main(String[] args) {
-        frmHome bank = new frmHome();
+        frmLogIn logIn = new frmLogIn();
+        logIn.setVisible(true);
+
         
-        double saldo, dineroDepositar, dineroRetirar;
-        int option;
-        String moneda = "";
-        
-        clsCard cuenta = new clsCard();
-        clsDeposit deposito = new clsDeposit();
-        clsWithdraw retiro = new clsWithdraw();
+//        clsCard cuenta = new clsCard();
+//        clsDeposit deposito = new clsDeposit();
+//        clsWithdraw retiro = new clsWithdraw();
         
 //        Scanner miTeclado = new Scanner(System.in);
 //        System.out.println("Ingrese saldo de la cuenta en soles");

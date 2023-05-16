@@ -4,6 +4,13 @@
  */
 package com.forms;
 
+import com.clases.clsConnection;
+import com.clases.clsUser;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author leona
@@ -15,6 +22,8 @@ public class frmLogIn extends javax.swing.JFrame {
      */
     public frmLogIn() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        retrieveDataFromDB();
     }
 
     /**
@@ -30,8 +39,8 @@ public class frmLogIn extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnSignIn = new javax.swing.JButton();
+        btnSignUp = new javax.swing.JButton();
         txtCardNumber = new javax.swing.JFormattedTextField();
         txtDni = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
@@ -47,14 +56,19 @@ public class frmLogIn extends javax.swing.JFrame {
 
         jLabel3.setText("Password:");
 
-        jButton1.setText("Sign In");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSignIn.setText("Sign In");
+        btnSignIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSignInActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Sign Up");
+        btnSignUp.setText("Sign Up");
+        btnSignUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSignUpActionPerformed(evt);
+            }
+        });
 
         try {
             txtCardNumber.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-####-####-####")));
@@ -70,8 +84,8 @@ public class frmLogIn extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSignIn, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(174, 174, 174))
             .addGroup(layout.createSequentialGroup()
                 .addGap(59, 59, 59)
@@ -112,23 +126,53 @@ public class frmLogIn extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSignIn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    private clsConnection connection;
+    private List<clsUser> lstUsers = new ArrayList<clsUser>();
+    private clsUser user;
+    
+    private void retrieveDataFromDB() {
+        connection.retrieveDataFromDB(lstUsers);
+    }
+    
+    private boolean getAuthentication() {
+        for(clsUser iteratorUser: lstUsers) {
+            if(txtDni.getText().equalsIgnoreCase(iteratorUser.getDni())) {
+                if(txtCardNumber.getText().equalsIgnoreCase(iteratorUser.getCard().getCardNumber())) {
+                    if(String.valueOf(txtPassword.getPassword()).equals(iteratorUser.getCard().getPassword())) {
+                        user = iteratorUser;
+                        return true;
+                    }
+                }       
+            }
+        }
+        return false;
+    }
+    
+    private void btnSignInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignInActionPerformed
+        if(getAuthentication()) {
+            frmHome home = new frmHome();
+            this.setVisible(false);
+            home.setVisible(true);
+        } else
+            JOptionPane.showMessageDialog(null, "Incorrect log in");
+    }//GEN-LAST:event_btnSignInActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
+        frmRegistration register = new frmRegistration();
+        this.setVisible(false);
+        register.setVisible(true);
+    }//GEN-LAST:event_btnSignUpActionPerformed
 
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -162,8 +206,8 @@ public class frmLogIn extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnSignIn;
+    private javax.swing.JButton btnSignUp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
