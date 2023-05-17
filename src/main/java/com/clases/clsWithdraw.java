@@ -31,20 +31,4 @@ public class clsWithdraw {
     public void setAmount(float amount) {
         this.amount = amount;
     }
-    
-    
-    
-//    public void Retirar(double dineroRetirado, String moneda, clsCard cuenta) {
-//        moneda.toUpperCase();
-//        if(moneda.equalsIgnoreCase("SOLES")) {
-//            cuenta.dineroRetiradoSoles(dineroRetirado);
-//            System.out.println("Ahora tu saldo es: " + cuenta.getDineroCuentaSoles());
-//        }
-//        if(moneda.equalsIgnoreCase("DOLARES")) {
-//            cuenta.dineroRetiradoDolares(dineroRetirado);
-//            System.out.println("Ahora tu saldo es: " + cuenta.getDineroCuentaDolares());
-//        }
-//    }
-
-
 }

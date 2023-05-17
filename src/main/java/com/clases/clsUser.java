@@ -1,6 +1,8 @@
 
 package com.clases;
 
+import java.util.List;
+
 public class clsUser {
     private String name;
     private String lastName;
@@ -25,12 +27,8 @@ public class clsUser {
     
     public void withdraw(float amount) {
         withdraw = new clsWithdraw(amount);
-        card.setBalance(-amount);
+        card.setBalance(amount);
         card.movements(withdraw);
-    }
-    
-    public void transfer(float amout) {
-        
     }
     
     public String getName() {
@@ -61,15 +59,12 @@ public class clsUser {
         return card;
     }
     
-    public String getInformation() {
-        return "Name: " + name +
-                "\nLastName: " + lastName +
-                "\nDNI: " + dni +
-                "\nCardNumber: " + card.getCardNumber() +
-                "\nCVV: " + card.getCvv() +
-                "\nExpiration Date: " + card.getExpirationDate() +
-                "\nPassword: " + card.getPassword() +
-                "\nCurrency: " + card.getCurrency() + "\n";
+    public clsDeposit getDeposit() {
+        return deposit;
+    }
+    
+    public clsWithdraw getWithdraw() {
+        return withdraw;
     }
     
 }

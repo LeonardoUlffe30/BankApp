@@ -1,12 +1,12 @@
 
 package com.clases;
 
-public class clsMovements {
+public class clsMovement {
     private String type;
     private String date;
     private float amount;
 
-    public clsMovements(String date, float amount, String type) {
+    public clsMovement(String date, float amount, String type) {
         this.type = type;
         this.date = date;
         this.amount = amount;
@@ -35,6 +35,5 @@ public class clsMovements {
     public void setAmount(float amount) {
         this.amount = amount;
     }
-    
-    
+   
 }

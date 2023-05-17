@@ -12,7 +12,7 @@ public class clsCard {
     private String currency;
     private String password;
     private float balance;
-    private List<clsMovements> lstMovements;
+    private List<clsMovement> lstMovements;
 
 
     public clsCard(String cardNumber, String cvv, String expirationDate, String password, String currency, float balance) {
@@ -22,17 +22,17 @@ public class clsCard {
         this.password = password;
         this.currency = currency;
         this.balance = balance;
-        lstMovements = new ArrayList<clsMovements>();
+        lstMovements = new ArrayList<clsMovement>();
     }
     
     public void movements(Object object) {
         if(object instanceof clsDeposit) {
             clsDeposit deposit = (clsDeposit)object;
-            lstMovements.add(new clsMovements(deposit.getDate(),deposit.getAmount(),"Deposit"));
+            lstMovements.add(new clsMovement(deposit.getDate(),deposit.getAmount(),"Deposit"));
         }
         if(object instanceof clsWithdraw) {
             clsWithdraw withdraw = (clsWithdraw)object;
-            lstMovements.add(new clsMovements(withdraw.getDate(),withdraw.getAmount(),"Withdraw"));
+            lstMovements.add(new clsMovement(withdraw.getDate(),withdraw.getAmount(),"Withdraw"));
         }
     }
 
@@ -81,11 +81,10 @@ public class clsCard {
     }
 
     public void setBalance(float balance) {
-        if(balance < 0)
-            this.balance -= balance;
-        else
-            this.balance +=balance;
+        this.balance +=balance;
     }
     
-
+    public List<clsMovement> getListMovements() {
+        return lstMovements;
+    }
 }
